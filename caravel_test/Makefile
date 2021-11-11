@@ -23,7 +23,7 @@ CARAVEL_RTL_PATH = $(CARAVEL_VERILOG_PATH)/rtl
 CARAVEL_BEHAVIOURAL_MODELS = $(CARAVEL_VERILOG_PATH)/dv/caravel
 
 ## User Project Pointers
-UPRJ_VERILOG_PATH ?= ../../../verilog
+UPRJ_VERILOG_PATH ?= ..
 UPRJ_RTL_PATH = $(UPRJ_VERILOG_PATH)/rtl
 UPRJ_BEHAVIOURAL_MODELS = ../
 
@@ -36,11 +36,13 @@ PDK_PATH?=/ef/tech/SW/sky130A
 SIM?=RTL
 
 # include the modules that cocotb needs for test
-export PYTHONPATH := $(UPRJ_RTL_PATH)/wrapped_project/project/test
+export COCOTB_REDUCED_LOG_FMT=1
+export PYTHONPATH := $(UPRJ_RTL_PATH)/wiggly_ic_1/test
+export LIBPYTHON_LOC=$(shell cocotb-config --libpython)
 
 .SUFFIXES:
 
-PATTERN = project
+PATTERN = wiggly_ic_1
 
 all:  coco_test
 
@@ -49,14 +51,15 @@ hex:  ${PATTERN:=.hex}
 coco_test: ${PATTERN}.hex
 	rm -rf sim_build/
 	mkdir sim_build/
-	iverilog -o sim_build/sim.vvp -s project_tb project_tb.v -DSIM -DFUNCTIONAL \
+	iverilog -o sim_build/sim.vvp -s wiggly_ic_1_tb wiggly_ic_1_tb.sv -DSIM -DFUNCTIONAL -g2012 \
 	-I $(PDK_PATH) \
 	-I $(CARAVEL_BEHAVIOURAL_MODELS) -I $(CARAVEL_RTL_PATH) \
 	-I $(UPRJ_BEHAVIOURAL_MODELS)    -I $(UPRJ_RTL_PATH)
-	
-	MODULE=test_project vvp -M $$(cocotb-config --prefix)/cocotb/libs -m libcocotbvpi_icarus sim_build/sim.vvp
 
-%.vvp: %_tb.v %.hex
+	MODULE=test_wiggly_ic_1_tb vvp -M $$(cocotb-config --prefix)/cocotb/libs -m libcocotbvpi_icarus sim_build/sim.vvp
+	! grep failure results.xml
+
+%.vvp: %_tb.sv %.hex
 ifeq ($(SIM),RTL)
 	iverilog -DFUNCTIONAL -DSIM -I $(PDK_PATH) \
 	-I $(CARAVEL_BEHAVIOURAL_MODELS) -I $(CARAVEL_RTL_PATH) \

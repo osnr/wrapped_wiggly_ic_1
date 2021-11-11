@@ -21,12 +21,12 @@
 `include "caravel_netlists.v"
 `include "spiflash.v"
 
-module project_tb;
-    initial begin
-        $dumpfile ("project.vcd");
-        $dumpvars (0, project_tb);
-        #1;
-    end
+module wiggly_ic_1_tb;
+    // initial begin
+    //     $dumpfile ("wiggly_ic_1_tb.vcd");
+    //     $dumpvars (0, wiggly_ic_1_tb);
+    //     #1;
+    // end
 
 	reg clk;
     reg RSTB;
@@ -37,10 +37,28 @@ module project_tb;
     wire [37:0] mprj_io;
 
     ///// convenience signals that match what the cocotb test modules are looking for
+    wire        kbd_clk;
+    wire        kbd_data;
+    wire        mouse_clk;
+    wire        mouse_data;
+    assign mprj_io[ 8] = kbd_clk;
+    assign mprj_io[ 9] = kbd_data;
+    assign mprj_io[10] = mouse_clk;
+    assign mprj_io[11] = mouse_data;
+    wire        vga_clk_pix;
+    assign clk = vga_clk_pix;
 
+    wire [1:0] vga_r = mprj_io[13:12];
+    wire [1:0] vga_g = mprj_io[15:14];
+    wire [1:0] vga_b = mprj_io[17:16];
+    wire       vga_hsync = mprj_io[18];
+    wire       vga_vsync = mprj_io[19];
+    wire [8:0] vga_sx = mprj_io[27:20];
+    wire [8:0] vga_sy = mprj_io[36:29];
+    wire       vga_de = mprj_io[37];
 
     /////
-
+    
 
 	wire flash_csb;
 	wire flash_clk;
@@ -79,7 +97,7 @@ module project_tb;
 	);
 
 	spiflash #(
-		.FILENAME("project.hex")
+		.FILENAME("wiggly_ic_1.hex")
 	) spiflash (
 		.csb(flash_csb),
 		.clk(flash_clk),
