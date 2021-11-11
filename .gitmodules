@@ -1,0 +1,3 @@
+[submodule "wiggly_ic_1"]
+	path = wiggly_ic_1
+	url = git@github.com:osnr/wiggly_ic_1.git
