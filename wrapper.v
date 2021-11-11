@@ -3,7 +3,7 @@
     `define MPRJ_IO_PADS 38    
 `endif
 // update this to the name of your module
-module wrapped_project(
+module wrapped_wiggly_ic_1 (
 `ifdef USE_POWER_PINS
     inout vccd1,	// User area 1 1.8V supply
     inout vssd1,	// User area 1 digital ground
@@ -74,6 +74,23 @@ module wrapped_project(
     // Instantiate your module here, 
     // connecting what you need of the above signals. 
     // Use the buffered outputs for your module's outputs.
+    
+    wiggly_ic_1 wiggly_ic_1_inst (
+      .clk(wb_clk_i), .rst(wb_rst_i),
+
+      .kbd_clk(io_in[8]),
+      .kbd_data(io_in[9]),
+
+      .mouse_clk(io_in[10]),
+      .mouse_data(io_in[11]),
+
+      .vga_clk_pix(wb_clk_i),
+      .vga_r(buf_io_out[13:12]),
+      .vga_g(buf_io_out[15:14]),
+      .vga_b(buf_io_out[17:16]),
+      .vga_hsync(buf_io_out[18]),
+      .vga_vsync(buf_io_out[19])
+    );
 
 endmodule 
 `default_nettype wire

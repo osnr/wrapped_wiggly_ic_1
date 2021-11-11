@@ -5,10 +5,13 @@ mode prove
 smtbmc
 
 [script]
-read -formal wrapper.v rest of your source files.v
-prep -top wrapped_project
+read -formal wrapper.v ps2rx.sv ps2tx.sv simple_display_timings_480p.sv wiggly_ic_1.sv
+prep -top wrapped_wiggly_ic_1
 
 [files]
 wrapper.v
 properties.v
-rest of your source files.v
+wiggly_ic_1/rtl/ps2rx.sv
+wiggly_ic_1/rtl/ps2tx.sv
+wiggly_ic_1/rtl/simple_display_timings_480p.sv
+wiggly_ic_1/rtl/wiggly_ic_1.sv
