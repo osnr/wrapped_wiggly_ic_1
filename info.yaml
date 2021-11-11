@@ -1,20 +1,20 @@
 --- 
 # information
 project: 
-  title: "title"
-  description: "description"
+  title: "wiggly_ic_1"
+  description: "screen and mouse; interact"
   picture: docs/empty.png
-  author: "Author"
-  github: https://github.com/link
+  author: "Omar Rizwan"
+  github: https://github.com/osnr/wiggly_ic_1
   license: LICENSE
 
 # test within caravel
 caravel_test:
   recipe: "coco_test"
   directory: "caravel_test"
-  id: 1
-  module_name: "wrapped_project"
-  instance_name: "wrapped_project"
+  id: 11
+  module_name: "wrapped_wiggly_ic_1"
+  instance_name: "wrapped_wiggly_ic_1"
 
 # module test
 module_test:
@@ -34,11 +34,14 @@ openlane:
 # source required for various configs and module instantiation
 source:
     - wrapper.v
-    - other source files here
+    - wiggly_ic_1/rtl/ps2rx.sv
+    - wiggly_ic_1/rtl/ps2tx.sv
+    - wiggly_ic_1/rtl/simple_display_timings_480p.sv
+    - wiggly_ic_1/rtl/wiggly_ic_1.sv
 
 # gds - check size = 300x300, nothing on metal 5, do a DRC, check 141 tristate buffers, check LVS
 gds:
   directory: "gds"
-  gds_filename: "project.gds"
-  lvs_filename: "project.lvs.powered.v"
-  lef_filename: "project.lef"
+  gds_filename: "wrapped_wiggly_ic_1.gds"
+  lvs_filename: "wrapped_wiggly_ic_1.lvs.powered.v"
+  lef_filename: "wrapped_wiggly_ic_1.lef"
