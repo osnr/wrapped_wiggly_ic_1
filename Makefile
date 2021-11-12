@@ -8,8 +8,12 @@ harden:
 		./flow.tcl -design wrapped_wiggly_ic_1
 
 print_summary:
-	summary.py --design wiggly_ic_1 --summary
+	summary.py --design wrapped_wiggly_ic_1 --summary
 print_timing:
-	cat $(LATEST_RUN)/reports/synthesis/opensta.min_max.rpt
+	cat $(LATEST_RUN)/reports/synthesis/1-opensta.rpt
 open_magic:
-	cd $(LATEST_RUN)/results/magic/ && DISPLAY=:0 magic wiggly_ic_1.gds
+	cd $(LATEST_RUN)/results/magic/ && DISPLAY=:0 magic wrapped_wiggly_ic_1.gds
+
+.PHONY: copy_gds
+copy_gds:
+	mkdir gds; cd gds; summary.py --design wrapped_wiggly_ic_1 --copy-gds
