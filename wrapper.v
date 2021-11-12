@@ -74,15 +74,20 @@ module wrapped_wiggly_ic_1 (
     // Instantiate your module here, 
     // connecting what you need of the above signals. 
     // Use the buffered outputs for your module's outputs.
-    
+
+    wire       mouse_clk_oe, mouse_data_oe;
     wiggly_ic_1 wiggly_ic_1_inst (
       .clk(wb_clk_i), .rst(wb_rst_i),
 
       .kbd_clk(io_in[8]),
       .kbd_data(io_in[9]),
 
-      .mouse_clk(io_in[10]),
-      .mouse_data(io_in[11]),
+      .mouse_clk_in(io_in[10]),
+      .mouse_data_in(io_in[11]),
+      .mouse_clk_out(buf_io_out[10]),
+      .mouse_data_out(buf_io_out[11]),
+      .mouse_clk_oe,
+      .mouse_data_oe,
 
       .vga_clk_pix(wb_clk_i),
       .vga_r(buf_io_out[13:12]),
