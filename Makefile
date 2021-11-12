@@ -14,6 +14,5 @@ print_timing:
 open_magic:
 	cd $(LATEST_RUN)/results/magic/ && DISPLAY=:0 magic wrapped_wiggly_ic_1.gds
 
-.PHONY: copy_gds
 copy_gds:
 	mkdir gds; cd gds; summary.py --design wrapped_wiggly_ic_1 --copy-gds

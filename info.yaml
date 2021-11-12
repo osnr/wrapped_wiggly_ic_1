@@ -8,6 +8,8 @@ project:
   github: https://github.com/osnr/wiggly_ic_1
   license: LICENSE
 
+interfaces: ['gpio']
+
 # test within caravel
 caravel_test:
   recipe: "coco_test"
@@ -18,8 +20,8 @@ caravel_test:
 
 # module test
 module_test:
-  recipe: "all" 
-  directory: "project directory"
+  recipe: "coco_test" 
+  directory: "wiggly_ic_1"
   makefile: "Makefile"
 
 # run the wrapper formal proof
