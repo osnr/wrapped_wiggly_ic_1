@@ -4,7 +4,7 @@
 `endif
 
 `define USE_WB  1
-`define USE_LA  1
+`define USE_LA  0
 `define USE_IO  1
 //`define USE_MEM 0
 //`define USE_IRQ 0
