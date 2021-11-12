@@ -78,7 +78,7 @@ async def test_wiggly_ic_1_tb(dut):
         
         while True:
             await FallingEdge(dut.vga_clk_pix)
-            if dut.vga_de.value == 1:
+            if dut.uut.mprj.wrapped_wiggly_ic_1.wiggly_ic_1_inst.vga_de.value == 1:
                 i = (dut.vga_sy.value*H_RES + dut.vga_sx.value) * 3
                 screenbuffer[i] = dut.vga_r.value << 6
                 screenbuffer[i+1] = dut.vga_g.value << 6
@@ -87,8 +87,14 @@ async def test_wiggly_ic_1_tb(dut):
             if dut.vga_vsync.value == 0:
                 break
 
-        assert screenbuffer[index(0, 0)] == 0
-        assert screenbuffer[index(dut.mouse_x.value, dut.mouse_y.value)] + 2 != 0 # cursor
+            
+        assert screenbuffer[index(0, 0)] == 0b11 << 6
+
+         # blue cursor
+        cursor = index(dut.mouse_x.value, dut.mouse_y.value)
+        assert screenbuffer[cursor] == 0b00 << 6
+        assert screenbuffer[cursor + 1] == 0b00 << 6
+        assert screenbuffer[cursor + 2] == 0b11 << 6
 
         info('frame %d', frame_num)
         write_png('frame' + str(frame_num) + '.png', screenbuffer)

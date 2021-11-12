@@ -8,7 +8,7 @@ project:
   github: https://github.com/osnr/wiggly_ic_1
   license: LICENSE
 
-interfaces: ['gpio']
+interfaces: ['gpio', 'wishbone']
 
 # test within caravel
 caravel_test:

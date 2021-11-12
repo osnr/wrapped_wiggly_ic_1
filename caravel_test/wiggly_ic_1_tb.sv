@@ -22,11 +22,11 @@
 `include "spiflash.v"
 
 module wiggly_ic_1_tb;
-    // initial begin
-    //     $dumpfile ("wiggly_ic_1_tb.vcd");
-    //     $dumpvars (0, wiggly_ic_1_tb);
-    //     #1;
-    // end
+    initial begin
+        $dumpfile ("wiggly_ic_1_tb.vcd");
+        $dumpvars (0, wiggly_ic_1_tb);
+        #1;
+    end
 
 	reg clk;
     reg RSTB;
