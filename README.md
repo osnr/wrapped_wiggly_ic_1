@@ -1,10 +1,6 @@
 # wrapped_wiggly_ic_1
 
-# Project info.yaml
-
-You need to fill in the fields of [info.yaml](info.yaml)
-
-See [here for more information](https://github.com/mattvenn/multi_project_tools/blob/main/docs/project_spec.md)
+PS/2 mouse & VGA display; little mouse cursor you can move around
 
 # License
 
