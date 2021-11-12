@@ -53,9 +53,6 @@ module wiggly_ic_1_tb;
     wire [1:0] vga_b = mprj_io[17:16];
     wire       vga_hsync = mprj_io[18];
     wire       vga_vsync = mprj_io[19];
-    wire [8:0] vga_sx = mprj_io[27:20];
-    wire [8:0] vga_sy = mprj_io[36:29];
-    wire       vga_de = mprj_io[37];
 
     /////
     
