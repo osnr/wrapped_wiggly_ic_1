@@ -3,7 +3,7 @@
 project: 
   title: "wiggly_ic_1"
   description: "screen and mouse; interact"
-  picture: docs/empty.png
+  picture: screenshot.png
   author: "Omar Rizwan"
   github: https://github.com/osnr/wiggly_ic_1
   license: LICENSE
