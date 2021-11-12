@@ -102,7 +102,10 @@ module wrapped_wiggly_ic_1 (
     `endif
 
     // permanently set oeb so that outputs are always enabled: 0 is output, 1 is high-impedance
-    assign buf_io_oeb = {`MPRJ_IO_PADS{1'b0}};
+    assign buf_io_oeb[9:0] = '0;
+    assign buf_io_oeb[10] = !mouse_clk_oe;
+    assign buf_io_oeb[11] = !mouse_data_oe;
+    assign buf_io_oeb[`MPRJ_IO_PADS-1:12] = '0;
 
     // Instantiate your module here, 
     // connecting what you need of the above signals. 
