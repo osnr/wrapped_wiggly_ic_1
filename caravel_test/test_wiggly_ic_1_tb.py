@@ -1,15 +1,13 @@
 import cocotb
 from cocotb.clock import Clock
-from cocotb.triggers import RisingEdge, FallingEdge, ClockCycles, with_timeout
+from cocotb.triggers import RisingEdge, FallingEdge, ClockCycles, with_timeout, Timer
 
 import random
-import cocotb
-from cocotb.clock import Clock
-from cocotb.triggers import FallingEdge, RisingEdge, Timer
 
 import png
 from datetime import datetime
 
+from test_wiggly_ic_1 import mouse_tester
 
 # takes ~60 seconds on my PC
 async def reset(dut):

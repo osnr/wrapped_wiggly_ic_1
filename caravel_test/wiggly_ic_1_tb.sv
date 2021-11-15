@@ -39,12 +39,12 @@ module wiggly_ic_1_tb;
     ///// convenience signals that match what the cocotb test modules are looking for
     wire        kbd_clk;
     wire        kbd_data;
-    wire        mouse_clk;
-    wire        mouse_data;
+    wire        mouse_clk_in;
+    wire        mouse_data_in;
     assign mprj_io[ 8] = kbd_clk;
     assign mprj_io[ 9] = kbd_data;
-    assign mprj_io[10] = mouse_clk;
-    assign mprj_io[11] = mouse_data;
+    assign mprj_io[10] = mouse_clk_in;
+    assign mprj_io[11] = mouse_data_in;
     wire        vga_clk_pix;
     assign vga_clk_pix = clk; // for now
 
