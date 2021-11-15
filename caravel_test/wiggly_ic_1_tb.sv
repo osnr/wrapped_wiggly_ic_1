@@ -46,7 +46,7 @@ module wiggly_ic_1_tb;
     assign mprj_io[10] = mouse_clk;
     assign mprj_io[11] = mouse_data;
     wire        vga_clk_pix;
-    assign clk = vga_clk_pix;
+    assign vga_clk_pix = clk; // for now
 
     wire [1:0] vga_r = mprj_io[13:12];
     wire [1:0] vga_g = mprj_io[15:14];

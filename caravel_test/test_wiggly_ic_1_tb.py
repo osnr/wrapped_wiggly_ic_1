@@ -13,7 +13,7 @@ from datetime import datetime
 
 # takes ~60 seconds on my PC
 async def reset(dut):
-    clock = Clock(dut.clk, 25, units="ns")
+    clock = Clock(dut.clk, 40, units="ns") # 25 MHz
     cocotb.fork(clock.start())
     
     dut.RSTB.value = 0
@@ -59,11 +59,15 @@ async def test_wiggly_ic_1_tb(dut):
 
     await reset(dut)
 
-    clk = Clock(dut.clk, 60, units="ns")  # 60ns period = 16.6MHz
+    # clk is same as vga_clk_pix right now
+    clk = Clock(dut.clk, 40, units="ns")  # 25MHz
     cocotb.fork(clk.start())  # Start the clock
+    
+    # clk = Clock(dut.clk, 60, units="ns")  # 60ns period = 16.6MHz
+    # cocotb.fork(clk.start())  # Start the clock
 
-    vga_clk_pix = Clock(dut.vga_clk_pix, 40, units="ns") # 40ns period = 25MHz
-    cocotb.fork(vga_clk_pix.start())
+    # vga_clk_pix = Clock(dut.vga_clk_pix, 40, units="ns") # 40ns period = 25MHz
+    # cocotb.fork(vga_clk_pix.start())
 
     info("hello")
 
@@ -77,7 +81,13 @@ async def test_wiggly_ic_1_tb(dut):
         
         while True:
             await FallingEdge(dut.vga_clk_pix)
+            # info("falling edge")
             if dut.uut.mprj.wrapped_wiggly_ic_1_11.wiggly_ic_1_inst.vga_de.value == 1:
+                # info("at (%d, %d): r=%d, g=%d, b=%d",
+                #      dut.uut.mprj.wrapped_wiggly_ic_1_11.wiggly_ic_1_inst.vga_sx.value,
+                #      dut.uut.mprj.wrapped_wiggly_ic_1_11.wiggly_ic_1_inst.vga_sy.value,
+                #      dut.vga_r.value, dut.vga_g.value, dut.vga_b.value)
+
                 i = (dut.uut.mprj.wrapped_wiggly_ic_1_11.wiggly_ic_1_inst.vga_sy.value*H_RES + dut.uut.mprj.wrapped_wiggly_ic_1_11.wiggly_ic_1_inst.vga_sx.value) * 3
                 screenbuffer[i] = dut.vga_r.value << 6
                 screenbuffer[i+1] = dut.vga_g.value << 6
@@ -92,7 +102,7 @@ async def test_wiggly_ic_1_tb(dut):
         assert screenbuffer[index(2, 2)] == 0b11 << 6
 
         # blue cursor
-        info("mouse_x=%d, mouse_y=%d", dut.mouse_x.value, dut.mouse_y.value)
+        info("mouse_x=%d, mouse_y=%d", dut.uut.mprj.wrapped_wiggly_ic_1_11.wiggly_ic_1_inst.mouse_x.value, dut.uut.mprj.wrapped_wiggly_ic_1_11.wiggly_ic_1_inst.mouse_y.value)
         cursor = index(dut.uut.mprj.wrapped_wiggly_ic_1_11.wiggly_ic_1_inst.mouse_x.value + 2, dut.uut.mprj.wrapped_wiggly_ic_1_11.wiggly_ic_1_inst.mouse_y.value + 2)
         assert screenbuffer[cursor] == 0b00 << 6
         assert screenbuffer[cursor + 1] == 0b00 << 6
