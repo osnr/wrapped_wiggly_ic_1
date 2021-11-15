@@ -72,8 +72,7 @@ async def test_wiggly_ic_1_tb(dut):
     screenbuffer = [0]*(H_RES*V_RES*3)
     def index(x, y): return (y*H_RES + x) * 3
 
-    frame_num = 0
-    while frame_num < 2:
+    async def read_frame(frame_num):
         await RisingEdge(dut.vga_vsync)
         
         while True:
@@ -87,17 +86,23 @@ async def test_wiggly_ic_1_tb(dut):
             if dut.vga_vsync.value == 0:
                 break
 
-            
-        assert screenbuffer[index(0, 0)] == 0b11 << 6
+        info('frame %d', frame_num)
+        write_png('frame' + str(frame_num) + '.png', screenbuffer)
 
-         # blue cursor
-        cursor = index(dut.uut.mprj.wrapped_wiggly_ic_1_11.wiggly_ic_1_inst.mouse_x.value, dut.uut.mprj.wrapped_wiggly_ic_1_11.wiggly_ic_1_inst.mouse_y.value)
+        assert screenbuffer[index(2, 2)] == 0b11 << 6
+
+        # blue cursor
+        info("mouse_x=%d, mouse_y=%d", dut.mouse_x.value, dut.mouse_y.value)
+        cursor = index(dut.uut.mprj.wrapped_wiggly_ic_1_11.wiggly_ic_1_inst.mouse_x.value + 2, dut.uut.mprj.wrapped_wiggly_ic_1_11.wiggly_ic_1_inst.mouse_y.value + 2)
         assert screenbuffer[cursor] == 0b00 << 6
         assert screenbuffer[cursor + 1] == 0b00 << 6
         assert screenbuffer[cursor + 2] == 0b11 << 6
 
-        info('frame %d', frame_num)
-        write_png('frame' + str(frame_num) + '.png', screenbuffer)
-        frame_num += 1
+    await read_frame(0)
 
-    # TODO: move the mouse, check for new cursor position
+    cocotb.fork(mouse_tester(dut))
+    # wait until mouse movement has registered
+    await Timer(3000, units="us")
+
+    # now read next frame
+    await read_frame(1)
