@@ -48,6 +48,19 @@ all:  coco_test
 
 hex:  ${PATTERN:=.hex}
 
+coco_test_all: coco_test_small coco_test
+
+coco_test_small: ${PATTERN}.hex
+	rm -rf sim_build/
+	mkdir sim_build/
+	iverilog -o sim_build/sim.vvp -s wiggly_ic_1_tb wiggly_ic_1_tb.sv -DSMALL -DSIM -DFUNCTIONAL -g2012 \
+	-I $(PDK_PATH) \
+	-I $(CARAVEL_BEHAVIOURAL_MODELS) -I $(CARAVEL_RTL_PATH) \
+	-I $(UPRJ_BEHAVIOURAL_MODELS)    -I $(UPRJ_RTL_PATH)
+
+	MODULE=test_wiggly_ic_1_tb vvp -M $$(cocotb-config --prefix)/cocotb/libs -m libcocotbvpi_icarus sim_build/sim.vvp
+	! grep failure results.xml
+
 coco_test: ${PATTERN}.hex
 	rm -rf sim_build/
 	mkdir sim_build/

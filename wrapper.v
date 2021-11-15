@@ -3,8 +3,8 @@
     `define MPRJ_IO_PADS 38    
 `endif
 
-`define USE_WB  1
-//`define USE_LA  0
+//`define USE_WB  0
+`define USE_LA  1
 `define USE_IO  1
 //`define USE_MEM 0
 //`define USE_IRQ 0
@@ -113,7 +113,7 @@ module wrapped_wiggly_ic_1 (
 
     wire       mouse_clk_oe, mouse_data_oe;
     wiggly_ic_1 wiggly_ic_1_inst (
-      .clk(wb_clk_i), .rst(wb_rst_i),
+      .clk(wb_clk_i), .rst(la1_data_in[0]),
 
       .kbd_clk(io_in[8]),
       .kbd_data(io_in[9]),

@@ -49,25 +49,6 @@ void main()
         reg_mprj_io_18 =  GPIO_MODE_USER_STD_OUTPUT;
         reg_mprj_io_19 =  GPIO_MODE_USER_STD_OUTPUT;
 
-        reg_mprj_io_20 =  GPIO_MODE_USER_STD_OUTPUT;
-        reg_mprj_io_21 =  GPIO_MODE_USER_STD_OUTPUT;
-        reg_mprj_io_22 =  GPIO_MODE_USER_STD_OUTPUT;
-        reg_mprj_io_23 =  GPIO_MODE_USER_STD_OUTPUT;
-        reg_mprj_io_24 =  GPIO_MODE_USER_STD_OUTPUT;
-        reg_mprj_io_25 =  GPIO_MODE_USER_STD_OUTPUT;
-        reg_mprj_io_26 =  GPIO_MODE_USER_STD_OUTPUT;
-        reg_mprj_io_27 =  GPIO_MODE_USER_STD_OUTPUT;
-        reg_mprj_io_28 =  GPIO_MODE_USER_STD_OUTPUT;
-        reg_mprj_io_29 =  GPIO_MODE_USER_STD_OUTPUT;
-        reg_mprj_io_30 =  GPIO_MODE_USER_STD_OUTPUT;
-        reg_mprj_io_31 =  GPIO_MODE_USER_STD_OUTPUT;
-        reg_mprj_io_32 =  GPIO_MODE_USER_STD_OUTPUT;
-        reg_mprj_io_33 =  GPIO_MODE_USER_STD_OUTPUT;
-        reg_mprj_io_34 =  GPIO_MODE_USER_STD_OUTPUT;
-        reg_mprj_io_35 =  GPIO_MODE_USER_STD_OUTPUT;
-        reg_mprj_io_36 =  GPIO_MODE_USER_STD_OUTPUT;
-        reg_mprj_io_37 =  GPIO_MODE_USER_STD_OUTPUT;
-
     /* Apply configuration */
     reg_mprj_xfer = 1;
     while (reg_mprj_xfer == 1);
@@ -77,7 +58,14 @@ void main()
     reg_la0_oenb = 0; // output enable bar low (enabled)
     reg_la0_data = 1 << 11; // ID = 11
 
-    // reset happens via Wishbone reset
+    // reset design with 0bit of 2nd bank of LA (we do this, rather
+    // than the Wishbone reset, so that the project doesn't start
+    // running [counting VGA pixels] until all the I/O pins are set
+    // up, which makes it easier to test)
+    reg_la1_oenb = 0;
+    reg_la1_iena = 0;
+    reg_la1_data = 1;
+    reg_la1_data = 0;
 
     // no need for anything else as this design is free running.
 

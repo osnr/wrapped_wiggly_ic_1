@@ -8,11 +8,11 @@ project:
   github: https://github.com/osnr/wiggly_ic_1
   license: LICENSE
 
-interfaces: ['gpio', 'wishbone']
+interfaces: ['la1', 'gpio']
 
 # test within caravel
 caravel_test:
-  recipe: "coco_test"
+  recipe: "coco_test_all"
   directory: "caravel_test"
   id: 11
   module_name: "wrapped_wiggly_ic_1"
@@ -20,7 +20,7 @@ caravel_test:
 
 # module test
 module_test:
-  recipe: "coco_test" 
+  recipe: "coco_test_all" 
   directory: "wiggly_ic_1"
   makefile: "Makefile"
 
